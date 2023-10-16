@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+
+}
+
+apply plugin: 'idea'
+group = 'com.io2c.httpproxyserver'
+version = '0.9-prod-https'
+
+sourceCompatibility = '17'
+targetCompatibility =  '17'
+
+dependencies {
+    implementation 'io.netty:netty-all:4.1.100.Final'
+
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+
+//    testImplementation 'org.slf4j:slf4j-reload4j:2.0.9'
+
+//    testCompile "junit:junit:4.12"
+}
+
+//mainClassName = "com.io2c.httpproxyserver.HttpProxyServer"
+
+
+jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Main-Class': 'com.io2c.httpproxyserver.HttpProxyServer',
+                'Class-Path': configurations.runtimeClasspath.files.collect { "lib/$it.name" }.join(' '),
+                'Implementation-Version': 1.0
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it)}
+    }
+}
