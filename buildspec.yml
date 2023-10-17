@@ -1,0 +1,12 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+  pre_build:
+    commands:
+      - echo "repsyUsername=$REPSY_USERNAME">~/.gradle/gradle.properties
+      - echo "repsyPassword=$REPSY_PASSWORD">>~/.gradle/gradle.properties
+  build:
+    commands:
+      - ./gradlew clean publish
