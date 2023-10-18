@@ -1,5 +1,7 @@
 package com.io2c.httpproxyserver;
 
+import com.io2c.httpproxyserver.auth.BasicUserAuthentication;
+import com.io2c.httpproxyserver.auth.IUserAuthentication;
 import com.io2c.httpproxyserver.container.Container;
 import com.io2c.httpproxyserver.container.ContainerHelper;
 import com.io2c.httpproxyserver.handler.https.HttpProxyRequestHandler;
@@ -67,6 +69,8 @@ public class HttpProxyServer implements Container {
 
     private static Properties configuration = new Properties();
 
+    private static IUserAuthentication userAuthentication;
+
     static {
         InputStream is = HttpProxyServer.class.getClassLoader().getResourceAsStream("config.properties");
         try {
@@ -79,6 +83,16 @@ public class HttpProxyServer implements Container {
 
     public static void main(String[] args) {
         ContainerHelper.start(Arrays.asList((Container) new HttpProxyServer()));
+    }
+
+    public HttpProxyServer(){
+        super();
+        userAuthentication = new BasicUserAuthentication(configuration);
+    }
+
+    public HttpProxyServer(IUserAuthentication authService){
+        super();
+        this.userAuthentication = authService;
     }
 
     @Override
@@ -326,12 +340,12 @@ public class HttpProxyServer implements Container {
             String userNamePassWord = new String(bytes);
             String[] split1 = userNamePassWord.split(":", 2);
             String password = configuration.getProperty("auth." + split1[0]);
-            if (password == null || !password.equals(split1[1])) {
-                return false;
-            }
+            return userAuthentication.isValidUser(split1[0], split1[1]);
+//            if (password == null || !password.equals(split1[1])) {
+//                return false;
+//            }
         } catch (Exception e) {
             return false;
         }
-        return true;
     }
 }
