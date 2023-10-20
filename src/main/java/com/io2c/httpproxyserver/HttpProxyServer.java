@@ -1,5 +1,6 @@
 package com.io2c.httpproxyserver;
 
+import com.io2c.httpproxyserver.auth.AuthenticationProvider;
 import com.io2c.httpproxyserver.auth.BasicUserAuthentication;
 import com.io2c.httpproxyserver.auth.IUserAuthentication;
 import com.io2c.httpproxyserver.container.Container;
@@ -38,10 +39,7 @@ import javax.net.ssl.SSLEngine;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -69,7 +67,7 @@ public class HttpProxyServer implements Container {
 
     private static Properties configuration = new Properties();
 
-    private static IUserAuthentication userAuthentication;
+    private static AuthenticationProvider authenticationProvider = new AuthenticationProvider();
 
     static {
         InputStream is = HttpProxyServer.class.getClassLoader().getResourceAsStream("config.properties");
@@ -87,12 +85,17 @@ public class HttpProxyServer implements Container {
 
     public HttpProxyServer(){
         super();
-        userAuthentication = new BasicUserAuthentication(configuration);
+        authenticationProvider.addAuthProvider(new BasicUserAuthentication(configuration));
     }
 
     public HttpProxyServer(IUserAuthentication authService){
-        super();
-        this.userAuthentication = authService;
+        this();
+        authenticationProvider.addAuthProvider(authService);
+    }
+
+    public HttpProxyServer(List<IUserAuthentication> authProviders){
+        this();
+        authenticationProvider.addAuthProvider(authProviders);
     }
 
     @Override
@@ -340,7 +343,7 @@ public class HttpProxyServer implements Container {
             String userNamePassWord = new String(bytes);
             String[] split1 = userNamePassWord.split(":", 2);
             String password = configuration.getProperty("auth." + split1[0]);
-            return userAuthentication.isValidUser(split1[0], split1[1]);
+            return authenticationProvider.isValidUser(split1[0], split1[1]);
 //            if (password == null || !password.equals(split1[1])) {
 //                return false;
 //            }
