@@ -85,7 +85,7 @@ public class HttpProxyServer implements Container {
 
     public HttpProxyServer(){
         super();
-        authenticationProvider.addAuthProvider(new BasicUserAuthentication(configuration));
+//        authenticationProvider.addAuthProvider(new BasicUserAuthentication(configuration));
     }
 
     public HttpProxyServer(IUserAuthentication authService){
