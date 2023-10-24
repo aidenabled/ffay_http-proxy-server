@@ -1,7 +1,6 @@
 package com.io2c.httpproxyserver;
 
 import com.io2c.httpproxyserver.auth.AuthenticationProvider;
-import com.io2c.httpproxyserver.auth.BasicUserAuthentication;
 import com.io2c.httpproxyserver.auth.IUserAuthentication;
 import com.io2c.httpproxyserver.container.Container;
 import com.io2c.httpproxyserver.container.ContainerHelper;
@@ -40,7 +39,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 /**
  * @author fei.feng
