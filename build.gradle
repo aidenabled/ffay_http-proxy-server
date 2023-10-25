@@ -12,7 +12,7 @@ repositories {
 
 apply plugin: 'idea'
 group = 'com.io2c.httpproxyserver'
-version = '0.14'
+version = '0.15'
 
 sourceCompatibility = '17'
 targetCompatibility =  '17'
