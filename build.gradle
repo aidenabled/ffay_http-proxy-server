@@ -12,15 +12,15 @@ repositories {
 
 apply plugin: 'idea'
 group = 'com.io2c.httpproxyserver'
-version = '0.14'
+version = '0.15'
 
 sourceCompatibility = '17'
 targetCompatibility =  '17'
 
 dependencies {
     implementation 'io.netty:netty-all:4.1.100.Final'
-    implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.20.0'
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
+    implementation 'org.slf4j:slf4j-api:2.0.9'
 }
 
 
