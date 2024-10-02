@@ -39,3 +39,9 @@ auth.admin1=password
 ```
 你的服务器IP hp.ioee.vip
 ```
+
+## publish
+
+```
+./gradlew clean assemble publish
+```

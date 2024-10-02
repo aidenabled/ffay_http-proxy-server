@@ -12,7 +12,7 @@ repositories {
 
 apply plugin: 'idea'
 group = 'com.io2c.httpproxyserver'
-version = '0.15'
+version = '0.16'
 
 sourceCompatibility = '17'
 targetCompatibility =  '17'
@@ -41,10 +41,11 @@ jar {
 publishing {
     repositories {
         maven {
-            url "https://repsy.io/mvn/aiden/proxy"
+            name = "github"
+            url = uri("https://maven.pkg.github.com/aidenabled/ffay_http-proxy-server")
             credentials {
-                username repsyUsername
-                password repsyPassword
+                username = project.findProperty("githubUsername") ?: System.getenv("GITHUB_USERNAME")
+                password = project.findProperty("githubToken") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
