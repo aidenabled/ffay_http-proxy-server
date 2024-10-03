@@ -5,8 +5,8 @@ phases:
       java: corretto17
   pre_build:
     commands:
-      - echo "repsyUsername=$REPSY_USERNAME">~/.gradle/gradle.properties
-      - echo "repsyPassword=$REPSY_PASSWORD">>~/.gradle/gradle.properties
+      - echo "githubUsername=$GITHUB_USERNAME">~/.gradle/gradle.properties
+      - echo "githubToken=$GITHUB_TOKEN">>~/.gradle/gradle.properties
   build:
     commands:
       - ./gradlew clean publish
